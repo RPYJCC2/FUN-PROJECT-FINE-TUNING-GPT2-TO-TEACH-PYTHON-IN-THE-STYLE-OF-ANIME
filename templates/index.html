@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Anime Girl Chatbot</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 20px;
+        }
+        #chat-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        #messages {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+        }
+        #user-input {
+            width: calc(100% - 100px);
+            padding: 10px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            padding: 10px 20px;
+            border: none;
+            background-color: #007BFF;
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .tts-button {
+            margin-left: 10px;
+            background-color: #28a745;
+        }
+        .tts-button:hover {
+            background-color: #218838;
+        }
+        audio {
+            display: block;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Yumi Teaches You Python</h1>
+    <div id="chat-container">
+        <div id="messages"></div>
+        <input type="text" id="user-input" placeholder="Ask me anything about coding...">
+        <button onclick="sendMessage()">Send</button>
+    </div>
+    <script>
+        async function sendMessage() {
+            const inputElement = document.getElementById("user-input");
+            const input = inputElement.value;
+            if (input.trim() === "") return;
+
+            document.getElementById("messages").innerHTML += `<p><b>You:</b> ${input}</p>`;
+            inputElement.value = "";
+
+            const response = await fetch("/chat", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ input: input })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                document.getElementById("messages").innerHTML += `<p><b>Yumi:</b> ${data.response}</p>`;
+                const audioResponse = await fetch(`/audio?input=${encodeURIComponent(data.audio_text)}`);
+                if (audioResponse.ok) {
+                    const audioBlob = await audioResponse.blob();
+                    const audioUrl = URL.createObjectURL(audioBlob);
+                    const audioElement = document.createElement("audio");
+                    audioElement.controls = true;
+                    audioElement.src = audioUrl;
+                    document.getElementById("messages").appendChild(audioElement);
+                    audioElement.play();
+                }
+            } else {
+                document.getElementById("messages").innerHTML += `<p><b>Yumi:</b> Something went wrong. Please try again.</p>`;
+            }
+
+            // Scroll to the bottom of the messages
+            document.getElementById("messages").scrollTop = document.getElementById("messages").scrollHeight;
+        }
+    </script>
+</body>
+</html>
