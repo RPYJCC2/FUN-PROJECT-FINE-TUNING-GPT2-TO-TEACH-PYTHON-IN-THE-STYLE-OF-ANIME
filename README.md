@@ -1,7 +1,7 @@
 # FUN-PROJECT-FINE-TUNING-GPT2-TO-TEACH-PYTHON-IN-THE-STYLE-OF-ANIME
 ## I first trained/fine-tuned the GPT-2 in google colab using an L4 GPU, which took about 3 hours for 1 epoch.
 ## I then uploaded it to huggingface to use their inference api.
-## The model was fine-tuned on anime scripts (see anime scripts folder) and Python data (see collab file for specific huggingface dataset).
+## The model was fine-tuned on anime scripts (see example anime scripts I uploaded) and Python data (see collab file for specific huggingface dataset).
 ## I then prompt engineered the GPT-2 to be Yumi, an anime girl.
 ## I employed a translation LLM to convert the English text generation outputs to Japanese
 ## I used a text-to-speech (TTS) LLM to convert the Japanese text to audio.
