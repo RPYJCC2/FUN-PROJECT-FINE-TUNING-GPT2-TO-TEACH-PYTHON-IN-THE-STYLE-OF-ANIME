@@ -10,4 +10,5 @@
 ## Beware: TTS audio might take a long time to generate... be patient :)
 ## I have max_length set to 50 but you can make Yumi generate more text by upping this variable.
 ## The model connects to the html frontend via flask (see app.py).
-## You can either create a .env file with your token (HUGGINGFACEHUB_API_TOKEN = instert_your_token_here) or insert it manually (don't share it with anyone).
+## You can either create a .env file with your token (HUGGINGFACEHUB_API_TOKEN = instert_your_token_here) or insert it manually (don't share it with anyone). You need the .env with your token so it can be grabbed in the app.py
+## To chat with Yumi run the app.py and connect to the host. You should be able to connect by left ctrl + left clicking on the local host address once you run the app.py
